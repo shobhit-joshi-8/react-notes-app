@@ -8,7 +8,7 @@ const initialState = {
     lastname: 'lastname',
     email: 'dummyuser@gmail.com',
     number: '7856548512',
-    password: '12345678'
+    password: 'Asdf@123'
   }],
   currentUser: null,
   dialogState: {
@@ -25,6 +25,7 @@ const userSlice = createSlice({
     },
     login: (state, action) => {
       state.currentUser = action.payload;
+      toast.success('Login Successfull!')
     },
     logout: (state) => {
       state.currentUser = null;
@@ -33,6 +34,7 @@ const userSlice = createSlice({
       const { firstname, lastname } = action.payload;
       state.currentUser.firstname = firstname;
       state.currentUser.lastname = lastname;
+      localStorage.setItem('currentUser', JSON.stringify(state.currentUser));
       toast.success('Profile Updated Successfully!')
 
     },

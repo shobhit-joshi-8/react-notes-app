@@ -1,6 +1,6 @@
 import { Button, Grid, Typography, TextField, InputAdornment, IconButton } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/userSlice';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -14,24 +14,16 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const users = useSelector(state => state.user.users);
+    const users = useSelector(state => state.user.users);
 
     const handleLogin = (userData) => {
-        const user = {
-            id: 121212,
-            firstname: 'dummyUser',
-            lastname: 'lastname',
-            email: 'dummyuser@gmail.com',
-            number: '7856548512',
-            password: 'Asdf@1234'
-        };
+        const user = users.find(user => user.email === userData?.email && user.password === userData?.password);
         localStorage.setItem('currentUser', JSON.stringify(user));
         if (user) {
             dispatch(login(user));
             localStorage.setItem('isLoggedIn', true);
-            toast.success('Login Successfull!')
             navigate('/dashboard');
-        } else {
+        } else if(!user){
             toast.error('Invalid Email or Password!')
         }
     };
@@ -128,7 +120,6 @@ const Login = () => {
                                     variant="contained"
                                     color="primary"
                                     onClick={() => {
-                                        formik.handleSubmit();
                                         formik.setTouched({
                                             email: true,
                                             password: true,

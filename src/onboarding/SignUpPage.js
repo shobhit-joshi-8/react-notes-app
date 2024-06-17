@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../redux/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
-import { Avatar, Button, Grid, TextField, Typography, InputAdornment , IconButton } from '@mui/material';
+import { Avatar, Button, Grid, TextField, Typography, InputAdornment, IconButton } from '@mui/material';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
@@ -36,12 +36,17 @@ const SignUpPage = () => {
             .required('Last Name is Required'),
         email: Yup.string()
             .email('Invalid email address')
+            .matches(/\.com$/, 'Invalid email address')
             .required('Email is required'),
         phoneNumber: Yup.string()
-            .matches(/^[0-9]{10}$/, 'Phone number must be exactly 10 digits')
+            .matches(/^[0-9]{10}$/, 'Phone number must be exactly 10 Numerical digits')
             .required('Phone number is required'),
         password: Yup.string()
             .min(8, 'Password must be at least 8 characters')
+            .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+            .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+            .matches(/[0-9]/, 'Password must contain at least one number')
+            .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one special character')
             .required('Password is required'),
     });
 
@@ -186,7 +191,7 @@ const SignUpPage = () => {
                                             password: true,
                                         });
                                     }}
-                            
+
                                 >
                                     Register
                                 </Button>
