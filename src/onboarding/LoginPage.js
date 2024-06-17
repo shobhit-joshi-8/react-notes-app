@@ -5,16 +5,19 @@ import { login } from '../redux/userSlice';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
-// import { Visibility, VisibilityOff } from '@material-ui/icons';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const users = useSelector(state => state.user.users);
+
+    useEffect(() => {
+        localStorage.getItem('isLoggedIn') && navigate('/dashboard')
+    })
 
     const handleLogin = (userData) => {
         const user = users.find(user => user.email === userData?.email && user.password === userData?.password);

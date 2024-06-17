@@ -156,7 +156,6 @@ function DashboardPage() {
                                     },
                                 }}
                                 onClick={() => {
-                                    formik.handleSubmit();
                                     formik.setTouched({
                                         title: true,
                                         description: true,
